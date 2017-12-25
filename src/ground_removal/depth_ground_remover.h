@@ -138,6 +138,8 @@ class DepthGroundRemover : public AbstractClient<Cloud>,
   float _eps = 0.001f;
 
   mutable int _counter = 0;
+
+  cv::Mat _ground_image;
 };
 
 }  // namespace depth_clustering

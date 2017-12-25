@@ -74,6 +74,9 @@ class Visualizer : public QGLViewer,
 
   ObjectPtrStorer* object_clouds_client() { return &_cloud_obj_storer; }
 
+  //zhanghm: new add
+  void getGroundCloud(const Cloud& ground_cloud);
+
  protected:
   void draw() override;
   void init() override;
@@ -86,6 +89,8 @@ class Visualizer : public QGLViewer,
   ObjectPtrStorer _cloud_obj_storer;
   Cloud _cloud;
   mutable std::mutex _cloud_mutex;
+  //zhanghm: new add
+  Cloud _ground_cloud;
 };
 
 }  // namespace depth_clustering
