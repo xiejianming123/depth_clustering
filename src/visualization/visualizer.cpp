@@ -82,6 +82,7 @@ void Visualizer::init() {
 
 void Visualizer::DrawCloud(const Cloud& cloud) {
   glPushMatrix();
+  glPointSize(1.0f);
   glBegin(GL_POINTS);
   glColor3f(1.0f, 1.0f, 1.0f);
   for (const auto& point : cloud.points()) {

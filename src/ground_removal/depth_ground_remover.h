@@ -62,6 +62,8 @@ class DepthGroundRemover : public AbstractClient<Cloud>,
    */
   void OnNewObjectReceived(const Cloud& cloud, const int sender_id) override;
 
+  //zhanghm: new add
+  cv::Mat GetGroundImage(){return _ground_image;}
  protected:
   /**
    * @brief      Zero out all pixels that belong to ground

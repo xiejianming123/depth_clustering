@@ -74,6 +74,10 @@ void ReadData(const Radians& angle_tollerance, const string& in_path,
     time_utils::Timer timer;
     visualizer->OnNewObjectReceived(*cloud_ptr, 0);
     depth_ground_remover.OnNewObjectReceived(*cloud_ptr, 0);
+    //得到地面点云
+    auto cloud_ground_ptr = Cloud::FromImage(depth_ground_remover.GetGroundImage(),*proj_params_ptr);
+    visualizer->getGroundCloud(*cloud_ground_ptr);//地面点云传给界面类
+
     auto current_millis = timer.measure(time_utils::Timer::Units::Milli);
     fprintf(stderr, "INFO: It took %lu ms to process and show everything.\n",
             current_millis);
