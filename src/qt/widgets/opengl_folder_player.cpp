@@ -238,7 +238,6 @@ void OpenGlFolderPlayer::onSliderMovedTo(int cloud_number) {
   fprintf(stderr, "[TIMER]: load cloud in %lu microsecs\n",
           timer.measure(Timer::Units::Micro));
   _current_full_depth_image = _cloud->projection_ptr()->depth_image();
-
   ui->lbl_cloud_name->setText(QString::fromStdString(file_name));
 
   timer.start();
