@@ -10,6 +10,7 @@
 #include <utils/velodyne_utils.h>
 #include <projections/projection_params.h>
 
+#include <QDebug>
 using depth_clustering::Cloud;
 using depth_clustering::ProjectionParams;
 using depth_clustering::MatFromDepthPng;

@@ -65,7 +65,7 @@ class ObjectPainter
     fprintf(stderr, "[TIMING]: Viewer updated in %lu us\n",
             timer.measure(Timer::Units::Micro));
   }
-
+  //constructor
   explicit ObjectPainter(Viewer* viewer) : _viewer(viewer)
   ,_colorR(0.2+0.8*(double)rand()/(double)RAND_MAX)
   ,_colorG(0.2+0.8*(double)rand()/(double)RAND_MAX)
