@@ -82,12 +82,25 @@ void Visualizer::init() {
 
 void Visualizer::DrawCloud(const Cloud& cloud) {
   glPushMatrix();
+  glPointSize(1.0f);
   glBegin(GL_POINTS);
   glColor3f(1.0f, 1.0f, 1.0f);
   for (const auto& point : cloud.points()) {
     glVertex3f(point.x(), point.y(), point.z());
   }
   glEnd();
+
+  glPointSize(3.0f);
+  glBegin(GL_POINTS);
+  //绘制地面点云
+  glColor3f(0.4f,0.8f,0.3f);
+  for (const auto& point : _ground_cloud.points()) {
+
+//        std::cout<<"++++++++++++++++++++++++++++"<<std::endl;
+    glVertex3f(point.x(), point.y(), point.z());
+  }
+  glEnd();
+
   glPopMatrix();
 }
 
@@ -142,6 +155,11 @@ void Visualizer::DrawCube(const Eigen::Vector3f& center,
 }
 
 Visualizer::~Visualizer() {}
+
+void Visualizer::getGroundCloud(const Cloud& ground_cloud)
+{
+  _ground_cloud = ground_cloud;
+}
 
 void Visualizer::OnNewObjectReceived(const Cloud& cloud, const int id) {
   lock_guard<mutex> guard(_cloud_mutex);

@@ -53,6 +53,11 @@ void DepthGroundRemover::OnNewObjectReceived(const Cloud& cloud,
                                           _ground_remove_angle, _window_size);
   fprintf(stderr, "INFO: Ground removed in %lu us\n", total_timer.measure());
   cloud_copy.projection_ptr()->depth_image() = no_ground_image;
+
+  //地面点云深度图像
+  _ground_image = depth_image-no_ground_image;
+//  _ground_image.convertTo(_ground_image, CV_32F);
+
   this->ShareDataWithAllClients(cloud_copy);
   _counter++;
 }

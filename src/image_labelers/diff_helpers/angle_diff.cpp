@@ -91,8 +91,8 @@ float AngleDiff::ComputeAlpha(const PixelCoord& current,
 AngleDiffPrecomputed::AngleDiffPrecomputed(const cv::Mat* source_image,
                                            const ProjectionParams* params)
     : AbstractDiff{source_image}, _params{params} {
-  PreComputeAlphaVecs();
-  PreComputeBetaAngles();
+  PreComputeAlphaVecs();//其实就是预先计算好了普赛
+  PreComputeBetaAngles();//计算好了所有belta值
 }
 
 float AngleDiffPrecomputed::DiffAt(const PixelCoord& from,
@@ -151,7 +151,7 @@ cv::Mat AngleDiffPrecomputed::Visualize() const {
 }
 
 void AngleDiffPrecomputed::PreComputeAlphaVecs() {
-  _row_alphas.reserve(_params->rows());
+  _row_alphas.reserve(_params->rows());//对应论文中用来计算belta公式中的角度pusai
   for (size_t r = 0; r < _params->rows() - 1; ++r) {
     _row_alphas.push_back(
         fabs((_params->AngleFromRow(r + 1) - _params->AngleFromRow(r)).val()));
@@ -164,6 +164,7 @@ void AngleDiffPrecomputed::PreComputeAlphaVecs() {
     _col_alphas.push_back(
         fabs((_params->AngleFromCol(c + 1) - _params->AngleFromCol(c)).val()));
   }
+  //水平方向上为一个圆周（闭环），需要单独考虑
   // handle last angle where we wrap columns
   float last_alpha = fabs((_params->AngleFromCol(0) -
                            _params->AngleFromCol(_params->cols() - 1)).val());

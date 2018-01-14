@@ -62,6 +62,8 @@ class DepthGroundRemover : public AbstractClient<Cloud>,
    */
   void OnNewObjectReceived(const Cloud& cloud, const int sender_id) override;
 
+  //zhanghm: new add
+  cv::Mat GetGroundImage(){return _ground_image;}
  protected:
   /**
    * @brief      Zero out all pixels that belong to ground
@@ -138,6 +140,8 @@ class DepthGroundRemover : public AbstractClient<Cloud>,
   float _eps = 0.001f;
 
   mutable int _counter = 0;
+
+  cv::Mat _ground_image;
 };
 
 }  // namespace depth_clustering

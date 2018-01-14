@@ -10,6 +10,9 @@
 
 # added by GitSavvy
 /.clang_complete
+# added by Zhanghm
+cmake-build-debug/
+.idea/
 
 /src/qt/.clang_complete
 

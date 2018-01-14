@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(depth_clustering)
-
+set(CMAKE_BUILD_TYPE "Release")
 include(DistVersion.cmake)
 system_info(DISTRO)
 message(STATUS "DISTRO: ${DISTRO}")
