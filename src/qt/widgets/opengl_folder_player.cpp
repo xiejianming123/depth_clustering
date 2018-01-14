@@ -256,7 +256,7 @@ void OpenGlFolderPlayer::onSliderMovedTo(int cloud_number) {
 
   //绘制3D点云
   _viewer->Clear();
-  _viewer->AddDrawable(DrawableCloud::FromCloud(_cloud));
+  //_viewer->AddDrawable(DrawableCloud::FromCloud(_cloud));
   _viewer->update();
 
   fprintf(stderr, "[TIMER]: add cloud to gui in %lu microsecs\n",

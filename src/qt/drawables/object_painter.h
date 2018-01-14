@@ -15,6 +15,7 @@
 #include <vector>
 
 #include "qt/drawables/drawable_cube.h"
+#include "qt/drawables/drawable_cloud.h"
 #include "qt/viewer/viewer.h"
 
 class ObjectPainter
@@ -28,8 +29,15 @@ class ObjectPainter
                            int client_id) override {
     if (!_viewer) { return; }
     Timer timer;
+
+    //const Eigen::Vector3f& color = Eigen::Vector3f(_colorR, _colorG, _colorB);
+
     for (const auto& kv : clouds) {
       const auto& cluster = kv.second;
+
+      Cloud::Ptr segments = boost::make_shared<Cloud>(cluster);
+      _viewer->AddDrawable(DrawableCloud::FromCloud(segments,randomColor()));
+
       Eigen::Vector3f center = Eigen::Vector3f::Zero();
       Eigen::Vector3f extent = Eigen::Vector3f::Zero();
       Eigen::Vector3f max_point(std::numeric_limits<float>::lowest(),
@@ -49,7 +57,7 @@ class ObjectPainter
       }
       center /= cluster.size();
       if (min_point.x() < max_point.x()) { extent = max_point - min_point; }
-      _viewer->AddDrawable(DrawableCube::Create(center, extent));
+      //_viewer->AddDrawable(DrawableCube::Create(center, extent));
     }
     fprintf(stderr, "[TIMING]: Adding all boxes took %lu us\n",
             timer.measure(Timer::Units::Micro));
@@ -58,11 +66,26 @@ class ObjectPainter
             timer.measure(Timer::Units::Micro));
   }
 
-  explicit ObjectPainter(Viewer* viewer) : _viewer(viewer) {}
+  explicit ObjectPainter(Viewer* viewer) : _viewer(viewer)
+  ,_colorR(0.2+0.8*(double)rand()/(double)RAND_MAX)
+  ,_colorG(0.2+0.8*(double)rand()/(double)RAND_MAX)
+  ,_colorB(0.2+0.8*(double)rand()/(double)RAND_MAX)
+  {}
   virtual ~ObjectPainter() {}
 
- private:
+  const Eigen::Vector3f randomColor()
+  {
+    _colorR = (0.2+0.8*(double)rand()/(double)RAND_MAX);
+    _colorG = (0.2+0.8*(double)rand()/(double)RAND_MAX);
+    _colorB = (0.2+0.8*(double)rand()/(double)RAND_MAX);
+    return Eigen::Vector3f(_colorR, _colorG, _colorB);
+  }
+private:
   Viewer* _viewer = nullptr;
+  double _colorR;
+  double _colorG;
+  double _colorB;
+
 };
 
 #endif  // SRC_QT_DRAWABLES_OBJECT_PAINTER_H_
