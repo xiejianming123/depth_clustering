@@ -169,6 +169,7 @@ class LinearImageLabeler : public AbstractImageLabeler {
   void ComputeLabels(DiffFactory::DiffType diff_type) override {
     _label_image =
         cv::Mat::zeros(_depth_image_ptr->size(), cv::DataType<uint16_t>::type);
+    //计算得到belta角度矩阵
     auto diff_helper_ptr =
         DiffFactory::Build(diff_type, _depth_image_ptr, &_params);
     // initialize the label

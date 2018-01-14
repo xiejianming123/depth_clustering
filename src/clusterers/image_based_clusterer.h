@@ -96,9 +96,10 @@ class ImageBasedClusterer : public AbstractClusterer {
       return;
     }
     time_utils::Timer timer;
+    //此时的depth_image为已经去掉地面像素的深度图
     LabelerT image_labeler(cloud.projection_ptr()->depth_image(),
                            cloud.projection_ptr()->params(), _angle_tollerance);
-    image_labeler.ComputeLabels(_diff_type);
+    image_labeler.ComputeLabels(_diff_type);//为整幅图像进行做好标签，标签图片为_label_image，即属于同一物体的深度图像像素具有相同的标签
     const cv::Mat* labels_ptr = image_labeler.GetLabelImage();
     fprintf(stderr, "INFO: image based labeling took: %lu us\n",
             timer.measure());
@@ -111,6 +112,7 @@ class ImageBasedClusterer : public AbstractClusterer {
     fprintf(stderr, "INFO: labels image sent to clients in: %lu us\n",
             timer.measure());
 
+    //接下来开始物体聚类
     // create 3d clusters from image labels
     std::unordered_map<uint16_t, Cloud> clusters;
     for (int row = 0; row < labels_ptr->rows; ++row) {
@@ -146,7 +148,7 @@ class ImageBasedClusterer : public AbstractClusterer {
     }
 
     fprintf(stderr, "INFO: prepared clusters in: %lu us\n", timer.measure());
-
+    //发布聚类好的点云，被object_painter.h中函数接收
     this->ShareDataWithAllClients(clusters);
     fprintf(stderr, "INFO: clusters shared: %lu us\n", timer.measure());
   }

@@ -254,6 +254,7 @@ void OpenGlFolderPlayer::onSliderMovedTo(int cloud_number) {
   fprintf(stderr, "[TIMER]: angles shown in %lu microsecs\n",
           timer.measure(Timer::Units::Micro));
 
+  //绘制3D点云
   _viewer->Clear();
   _viewer->AddDrawable(DrawableCloud::FromCloud(_cloud));
   _viewer->update();

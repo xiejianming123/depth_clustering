@@ -159,8 +159,8 @@ class AngleDiffPrecomputed : public AbstractDiff {
   float GetBeta(float alpha, float current_depth, float neighbor_depth) const;
 
   const ProjectionParams* _params = nullptr;
-  std::vector<float> _row_alphas;
-  std::vector<float> _col_alphas;
+  std::vector<float> _row_alphas; //64维
+  std::vector<float> _col_alphas; //870维
   cv::Mat _beta_rows;
   cv::Mat _beta_cols;
 };
