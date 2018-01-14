@@ -235,6 +235,22 @@ void OpenGlFolderPlayer::onSliderMovedTo(int cloud_number) {
   Timer timer;
   const auto &file_name = _file_names[cloud_number];
   _cloud = CloudFromFile(file_name, *_proj_params);
+  QFileInfo fi(QString::fromStdString(file_name));
+  QString name = fi.fileName();
+  QString basename = fi.baseName();
+  QString path = fi.path();
+  if(name.endsWith(".bin"))
+  {
+    std::string temp = path.toStdString();
+    std::string prefix = temp.substr(0,temp.find_last_of('/')+1);
+    std::string imagePath = prefix+"image_2/"+basename.toStdString()+".png";
+    std::cout<<imagePath<<std::endl;
+    cv::Mat imgColor = cv::imread(imagePath);
+    cv::imshow("Image Color",imgColor);
+  }
+
+
+
   fprintf(stderr, "[TIMER]: load cloud in %lu microsecs\n",
           timer.measure(Timer::Units::Micro));
   _current_full_depth_image = _cloud->projection_ptr()->depth_image();
