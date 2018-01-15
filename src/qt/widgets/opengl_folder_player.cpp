@@ -218,7 +218,7 @@ void OpenGlFolderPlayer::onSegmentationParamUpdate() {
   _clusterer->AddClient(_painter.get());
   if (ui->radio_show_segmentation->isChecked()) {
     fprintf(stderr, "Info: ready to receive labels\n");
-    _clusterer->SetLabelImageClient(this);
+    _clusterer->SetLabelImageClient(this);//等待接收分割后的图片结果,用来显示二维深度图上分割效果
   } else {
     _scene_labels.reset();
   }
@@ -235,19 +235,9 @@ void OpenGlFolderPlayer::onSliderMovedTo(int cloud_number) {
   Timer timer;
   const auto &file_name = _file_names[cloud_number];
   _cloud = CloudFromFile(file_name, *_proj_params);
-  QFileInfo fi(QString::fromStdString(file_name));
-  QString name = fi.fileName();
-  QString basename = fi.baseName();
-  QString path = fi.path();
-  if(name.endsWith(".bin"))
-  {
-    std::string temp = path.toStdString();
-    std::string prefix = temp.substr(0,temp.find_last_of('/')+1);
-    std::string imagePath = prefix+"image_2/"+basename.toStdString()+".png";
-    std::cout<<imagePath<<std::endl;
-    cv::Mat imgColor = cv::imread(imagePath);
-    cv::imshow("Image Color",imgColor);
-  }
+  cv::Mat camera_image;
+  ReadCameraImage(file_name,camera_image);
+  cv::imshow("Image Color",camera_image);
 
 
 

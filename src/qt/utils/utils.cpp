@@ -73,3 +73,22 @@ Cloud::Ptr CloudFromFile(const std::string &file_name,
   // }
   return cloud;
 }
+
+
+bool ReadCameraImage(const std::string& file_name,cv::Mat& imgRead){
+  QFileInfo fi(QString::fromStdString(file_name));
+  QString name = fi.fileName();
+  QString basename = fi.baseName();
+  QString path = fi.path();
+  if(name.endsWith(".bin"))
+  {
+    std::string temp = path.toStdString();
+    std::string prefix = temp.substr(0,temp.find_last_of('/')+1);
+    std::string imagePath = prefix+"image_2/"+basename.toStdString()+".png";
+    std::cout<<imagePath<<std::endl;
+    imgRead = cv::imread(imagePath, CV_LOAD_IMAGE_COLOR);//CV_8UC3 type
+    return true;
+  }
+  printf("[INFO]: without corresponding camera image, please check!");
+  return false;
+}

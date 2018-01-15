@@ -104,7 +104,7 @@ class ImageBasedClusterer : public AbstractClusterer {
     fprintf(stderr, "INFO: image based labeling took: %lu us\n",
             timer.measure());
 
-    // send image to whoever wants to get it
+    // send image to whoever wants to get it,发送分割图,被opengl_folder_player对应函数响应
     if (_label_client) {
       _label_client->OnNewObjectReceived(*labels_ptr, this->id());
     }
