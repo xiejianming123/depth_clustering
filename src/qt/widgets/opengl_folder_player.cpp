@@ -236,9 +236,14 @@ void OpenGlFolderPlayer::onSliderMovedTo(int cloud_number) {
   const auto &file_name = _file_names[cloud_number];
   _cloud = CloudFromFile(file_name, *_proj_params);
   cv::Mat camera_image;
-  ReadCameraImage(file_name,camera_image);
+  std::string calib_file;
+  ReadCameraImage(file_name,camera_image,calib_file);
+  calib_file += "calib.txt";
   cv::imshow("Image Color",camera_image);
-
+  _calib_params = sensor_fusion::CalibarationParams::FromCalibFile(calib_file);
+  //std::cerr<<"[INFO]: calib matrix is "<<flush;
+  printf("[INFO]: calib matrix is \n");
+  std::cerr<<_calib_params->_cameraMatrix<<"\n";//[Note]在Qt中用endl换行输出时,Qt会把输出的endl默认为1输出
 
 
   fprintf(stderr, "[TIMER]: load cloud in %lu microsecs\n",

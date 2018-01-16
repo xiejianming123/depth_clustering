@@ -24,7 +24,7 @@
 #include "projections/cloud_projection.h"
 #include "projections/spherical_projection.h"
 #include "utils/cloud.h"
-
+#include "sensor_fusion/calib_params.h"
 namespace Ui {
 class OpenGlFolderPlayer;
 }
@@ -54,6 +54,7 @@ class OpenGlFolderPlayer : public BaseViewerWidget,
   std::unique_ptr<QGraphicsScene> _scene = nullptr;
   std::unique_ptr<QGraphicsScene> _scene_labels = nullptr;
   std::unique_ptr<depth_clustering::ProjectionParams> _proj_params = nullptr;
+  std::unique_ptr<sensor_fusion::CalibarationParams> _calib_params = nullptr;
 
   std::unique_ptr<depth_clustering::ImageBasedClusterer<
       depth_clustering::LinearImageLabeler<>>>

@@ -74,8 +74,8 @@ Cloud::Ptr CloudFromFile(const std::string &file_name,
   return cloud;
 }
 
-
-bool ReadCameraImage(const std::string& file_name,cv::Mat& imgRead){
+//@folder_dir the image folder's parent folder path
+bool ReadCameraImage(const std::string& file_name,cv::Mat& imgRead,std::string& parent_dir_path){
   QFileInfo fi(QString::fromStdString(file_name));
   QString name = fi.fileName();
   QString basename = fi.baseName();
@@ -87,6 +87,8 @@ bool ReadCameraImage(const std::string& file_name,cv::Mat& imgRead){
     std::string imagePath = prefix+"image_2/"+basename.toStdString()+".png";
     std::cout<<imagePath<<std::endl;
     imgRead = cv::imread(imagePath, CV_LOAD_IMAGE_COLOR);//CV_8UC3 type
+
+    parent_dir_path = prefix;
     return true;
   }
   printf("[INFO]: without corresponding camera image, please check!");

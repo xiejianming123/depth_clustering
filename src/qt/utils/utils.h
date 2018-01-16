@@ -22,6 +22,6 @@ QImage MatToQImage(const cv::Mat &image);
 
 dc::Cloud::Ptr CloudFromFile(const std::string &file_name,
                              const dc::ProjectionParams &proj_params);
-bool ReadCameraImage(const std::string& imagePath,cv::Mat& imgRead);
+bool ReadCameraImage(const std::string& imagePath,cv::Mat& imgRead,std::string& parent_dir_path);
 
 #endif  // SRC_QT_UTILS_UTILS_H_

@@ -42,6 +42,7 @@ target_link_libraries(qt_widgets
                       velodyne_utils
                       folder_reader
                       bbox
+                      lidar_frame
                       ${catkin_LIBRARIES}
                       ${OpenCV_LIBS}
                       ${QGLVIEWER_LIBRARY}

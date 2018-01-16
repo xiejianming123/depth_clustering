@@ -8,6 +8,8 @@
 #include <fstream>
 
 #include "utils/mem_utils.h"
+namespace sensor_fusion {
+
 std::unique_ptr<CalibarationParams> CalibarationParams::FromCalibFile(const std::string& calibFile){
   auto params = CalibarationParams();
   std::ifstream inputFile;
@@ -48,5 +50,8 @@ std::unique_ptr<CalibarationParams> CalibarationParams::FromCalibFile(const std:
   params._projectionMatrix = params._cameraMatrix*params._velo2camera;//project 3D point in lidar to camera image coordinate
 
   return mem_utils::make_unique<CalibarationParams>(params);
+
+}
+
 
 }
