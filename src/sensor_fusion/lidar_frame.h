@@ -6,7 +6,7 @@
 #define DEPTH_CLUSTERING_LIDARFRAME_H
 #include "sensor_fusion/calib_params.h"
 #include "utils/cloud.h"
-
+#include "qt/viewer/viewer.h"
 
 #include <algorithm>
 #include <limits>
@@ -24,6 +24,10 @@ public:
   //constructor
   explicit LidarFrame(const Cloud::Ptr& cloud,const cv::Mat& camera_image):
           _cloud{cloud},_camera_image{camera_image}{}
+
+  explicit LidarFrame(const Cloud::Ptr& cloud,const cv::Mat& camera_image,Viewer* viewer):
+          _cloud{cloud},_camera_image{camera_image},_viewer(viewer){}
+
 
   //@brief project clusters to image
   void OnNewObjectReceived(const std::unordered_map<uint16_t, Cloud>& clouds,
@@ -77,7 +81,8 @@ public:
   //functions for get class members
   const cv::Mat& camera_image() const{return this->_camera_image;}//return camera_image
 
-
+private:
+  Viewer* _viewer = nullptr; //用来绘制3D聚类点云,为了保证和图像上聚类颜色一致,所以放在此处
   CalibarationParams::Ptr _calib_params;
   depth_clustering::Cloud::Ptr _cloud = nullptr;
   cv::Mat _camera_image;

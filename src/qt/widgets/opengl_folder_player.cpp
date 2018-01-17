@@ -235,6 +235,8 @@ void OpenGlFolderPlayer::onSliderMovedTo(int cloud_number) {
   Timer timer;
   const auto &file_name = _file_names[cloud_number];
   _cloud = CloudFromFile(file_name, *_proj_params);
+
+
   cv::Mat camera_image;
   std::string calib_file;
   ReadCameraImage(file_name,camera_image,calib_file);
@@ -246,17 +248,11 @@ void OpenGlFolderPlayer::onSliderMovedTo(int cloud_number) {
   std::cerr<<_calib_params->_cameraMatrix<<"\n";//[Note]在Qt中用endl换行输出时,Qt会把输出的endl默认为1输出
 
   //construct the _lidar frame pointer
-  _lidar_frame = sensor_fusion::LidarFrame::Ptr(new sensor_fusion::LidarFrame(_cloud,camera_image));
+  _lidar_frame = sensor_fusion::LidarFrame::Ptr(new sensor_fusion::LidarFrame(_cloud,camera_image,_viewer));
   _lidar_frame->InitCalibrationParams(*_calib_params); //initialize the projection parameterss
-  //_lidar_frame->Project2Image();
-  cv::namedWindow("fusion_image",CV_WINDOW_NORMAL);
-  //cv::imshow("fusion_image",_lidar_frame->camera_image());
 
-  if(!_painter->clusters_received().empty()){
-    fprintf(stderr,"[INFO] Get clusters from painter\n");
-    _lidar_frame->OnNewObjectReceived(_painter->clusters_received());
-    cv::imshow("fusion_image",_lidar_frame->camera_image());
-  }
+
+
 
   fprintf(stderr, "[TIMER]: load cloud in %lu microsecs\n",
           timer.measure(Timer::Units::Micro));
@@ -287,6 +283,15 @@ void OpenGlFolderPlayer::onSliderMovedTo(int cloud_number) {
 
   // label cloud and show labels
   _ground_rem->OnNewObjectReceived(*_cloud, 0);
+
+  //_lidar_frame->Project2Image();
+  cv::namedWindow("fusion_image",CV_WINDOW_NORMAL);
+  //cv::imshow("fusion_image",_lidar_frame->camera_image());
+  if(!_painter->clusters_received().empty()){
+    fprintf(stderr,"[INFO] Get clusters from painter\n");
+    _lidar_frame->OnNewObjectReceived(_painter->clusters_received());
+    cv::imshow("fusion_image",_lidar_frame->camera_image());
+  }
 
   fprintf(stderr, "[TIMER]: full segmentation took %lu milliseconds\n",
           timer.measure(Timer::Units::Milli));

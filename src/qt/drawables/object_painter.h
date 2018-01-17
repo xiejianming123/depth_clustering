@@ -35,8 +35,8 @@ class ObjectPainter
     for (const auto& kv : clouds) {
       const auto& cluster = kv.second;
 
-      Cloud::Ptr segments = boost::make_shared<Cloud>(cluster);
-      _viewer->AddDrawable(DrawableCloud::FromCloud(segments,randomColor()));
+      //Cloud::Ptr segments = boost::make_shared<Cloud>(cluster);
+      //_viewer->AddDrawable(DrawableCloud::FromCloud(segments,randomColor()));
 
       Eigen::Vector3f center = Eigen::Vector3f::Zero();
       Eigen::Vector3f extent = Eigen::Vector3f::Zero();

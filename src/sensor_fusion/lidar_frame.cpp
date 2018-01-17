@@ -4,7 +4,7 @@
 
 #include "./lidar_frame.h"
 #include "qt/utils/utils.h"
-
+#include "qt/drawables/drawable_cloud.h"
 namespace sensor_fusion{
 
 void LidarFrame::InitCalibrationParams(const CalibarationParams& params)
@@ -17,14 +17,21 @@ void LidarFrame::OnNewObjectReceived(const std::unordered_map<uint16_t, Cloud>& 
                                           int client_id){
   for(const auto& kv:clouds){
     const auto& cluster = kv.second; //one of cloud cluster
-    Eigen::Vector3f color = 255*randomColor();
+
+    //visualize the 3D clusters
+    Cloud::Ptr segments = boost::make_shared<Cloud>(cluster);
+    Eigen::Vector3f color = randomColor();
+    _viewer->AddDrawable(DrawableCloud::FromCloud(segments,color));
+
+    color = 255*color;
     for(const auto& point:cluster.points()){
       cv::Point image_point = point3DTo2D(point);
-      cv::circle(_camera_image,image_point,1,cv::Scalar(color.x(),color.y(),color.z()));
+      cv::circle(_camera_image,image_point,1,cv::Scalar(color.z(),color.y(),color.x()));
 
     }
   }
 
+  _viewer->update();
 
 }
 
