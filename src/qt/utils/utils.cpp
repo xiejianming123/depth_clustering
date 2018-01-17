@@ -74,6 +74,14 @@ Cloud::Ptr CloudFromFile(const std::string &file_name,
   return cloud;
 }
 
+const Eigen::Vector3f randomColor()
+{
+  double _colorR = (0.2+0.8*(double)rand()/(double)RAND_MAX);
+  double _colorG = (0.2+0.8*(double)rand()/(double)RAND_MAX);
+  double _colorB = (0.2+0.8*(double)rand()/(double)RAND_MAX);
+  return Eigen::Vector3f(_colorR, _colorG, _colorB);
+}
+
 //@folder_dir the image folder's parent folder path
 bool ReadCameraImage(const std::string& file_name,cv::Mat& imgRead,std::string& parent_dir_path){
   QFileInfo fi(QString::fromStdString(file_name));

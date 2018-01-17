@@ -2,13 +2,29 @@
 // Created by zhanghm on 18-1-15.
 //
 
-#include "lidar_frame.h"
+#include "./lidar_frame.h"
+#include "qt/utils/utils.h"
 
 namespace sensor_fusion{
 
 void LidarFrame::InitCalibrationParams(const CalibarationParams& params)
 {
   _calib_params = CalibarationParams::Ptr(new CalibarationParams(params));
+
+}
+
+void LidarFrame::OnNewObjectReceived(const std::unordered_map<uint16_t, Cloud>& clouds,
+                                          int client_id){
+  for(const auto& kv:clouds){
+    const auto& cluster = kv.second; //one of cloud cluster
+    Eigen::Vector3f color = 255*randomColor();
+    for(const auto& point:cluster.points()){
+      cv::Point image_point = point3DTo2D(point);
+      cv::circle(_camera_image,image_point,1,cv::Scalar(color.x(),color.y(),color.z()));
+
+    }
+  }
+
 
 }
 
