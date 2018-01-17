@@ -26,7 +26,10 @@ public:
           _cloud{cloud},_camera_image{camera_image}{}
 
   explicit LidarFrame(const Cloud::Ptr& cloud,const cv::Mat& camera_image,Viewer* viewer):
-          _cloud{cloud},_camera_image{camera_image},_viewer(viewer){}
+          _viewer(viewer),_cloud{cloud},_camera_image{camera_image}{}
+
+  void InitCalibrationParams(const CalibarationParams& params);
+
 
 
   //@brief project clusters to image
@@ -76,7 +79,7 @@ public:
 
   }
 
-  void InitCalibrationParams(const CalibarationParams& params);
+
 
   //functions for get class members
   const cv::Mat& camera_image() const{return this->_camera_image;}//return camera_image

@@ -50,6 +50,7 @@ OpenGlFolderPlayer::OpenGlFolderPlayer(QWidget *parent)
   ui->setupUi(this);
   ui->sldr_navigate_clouds->setEnabled(false);
   ui->spnbx_current_cloud->setEnabled(false);
+  ui->cmb_extension->setCurrentIndex(3); //set "bin" by default
 
   _viewer = ui->gl_widget;
   _viewer->installEventFilter(this);
