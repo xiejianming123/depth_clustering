@@ -10,6 +10,10 @@ namespace sensor_fusion{
 
 class LidarFrame {
 public:
+  //useful using
+  using Ptr = shared_ptr<LidarFrame>;
+  using ConstPtr = shared_ptr<const LidarFrame>;
+
   //constructor
   explicit LidarFrame(const Cloud::Ptr& cloud,const cv::Mat& camera_image):
           _cloud{cloud},_camera_image{camera_image}{}
