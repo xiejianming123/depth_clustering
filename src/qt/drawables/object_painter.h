@@ -31,7 +31,7 @@ class ObjectPainter
     Timer timer;
 
     //const Eigen::Vector3f& color = Eigen::Vector3f(_colorR, _colorG, _colorB);
-
+    _clusters = clouds;
     for (const auto& kv : clouds) {
       const auto& cluster = kv.second;
 
@@ -80,11 +80,14 @@ class ObjectPainter
     _colorB = (0.2+0.8*(double)rand()/(double)RAND_MAX);
     return Eigen::Vector3f(_colorR, _colorG, _colorB);
   }
+
+  inline const std::unordered_map<uint16_t, Cloud>& clusters_received()const{return _clusters;}
 private:
   Viewer* _viewer = nullptr;
   double _colorR;
   double _colorG;
   double _colorB;
+  std::unordered_map<uint16_t, Cloud> _clusters;
 
 };
 
